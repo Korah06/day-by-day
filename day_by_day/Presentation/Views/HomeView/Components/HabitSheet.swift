@@ -6,10 +6,43 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HabitSheet: View {
+    @Environment(\.modelContext) var context
+    @Environment(\.dismiss) private var dismiss
+    @State private var name: String = ""
+    @State private var color: Color = .green
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack{
+            Form{
+                TextField("Nombre del habito", text:$name)
+                ColorPicker("Color principal", selection: $color)
+            }
+            .navigationTitle("Nuevo habito")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar{
+                ToolbarItemGroup(placement: .topBarLeading){
+                    Button("Cancelar",role: .cancel){
+                        dismiss()
+                    }
+                }
+
+                ToolbarItemGroup(placement: .topBarTrailing){
+                    Button("Guardar",role: .confirm){
+                        let habit = HabitModel(
+                            id: UUID.init(),
+                            title: name,
+                            colorHex: color.toHex(),
+                            checkIns: []
+                        )
+                        context.insert(habit)
+                        dismiss()
+                    }
+                }
+            }
+        }
+
     }
 }
 

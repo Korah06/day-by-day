@@ -6,3 +6,19 @@
 //
 
 import Foundation
+import SwiftData
+
+@Model
+class HabitModel {
+    @Attribute(.unique) var id: UUID
+    var title: String
+    var colorHex: String
+    var checkIns: [CheckInModel]
+
+    init(id: UUID, title: String, colorHex:String, checkIns: [CheckInModel]) {
+        self.title = title
+        self.id = id
+        self.colorHex = colorHex
+        self.checkIns = checkIns
+    }
+}

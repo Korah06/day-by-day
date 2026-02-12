@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct CheckIn: Identifiable, Codable, Equatable, Hashable{
+    let id: UUID
+    let amount: Double
+    let date: Date
+}
