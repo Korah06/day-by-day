@@ -11,15 +11,29 @@ import SwiftData
 struct HabitSheet: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) private var dismiss
-    @State private var name: String = ""
-    @State private var color: Color = .green
+    
+    let habit: HabitModel?
+    
+    @State private var name: String
+    @State private var color: Color
+    
+    init(habit: HabitModel? = nil) {
+        self.habit = habit
+        _name = State(initialValue: habit?.title ?? "")
+        _color = State(initialValue: habit != nil ? Color(hex: habit!.colorHex) : .green)
+    }
+    
+    private var isEditing: Bool {
+        habit != nil
+    }
+    
     var body: some View {
         NavigationStack{
             Form{
                 TextField("Nombre del habito", text:$name)
                 ColorPicker("Color principal", selection: $color)
             }
-            .navigationTitle("Nuevo habito")
+            .navigationTitle(isEditing ? "Editar hábito" : "Nuevo hábito")
             .navigationBarTitleDisplayMode(.large)
             .toolbar{
                 ToolbarItemGroup(placement: .topBarLeading){
@@ -30,15 +44,23 @@ struct HabitSheet: View {
 
                 ToolbarItemGroup(placement: .topBarTrailing){
                     Button("Guardar",role: .confirm){
-                        let habit = HabitModel(
-                            id: UUID.init(),
-                            title: name,
-                            colorHex: color.toHex(),
-                            checkIns: []
-                        )
-                        context.insert(habit)
+                        if let existingHabit = habit {
+                            // Edit existing habit
+                            existingHabit.title = name
+                            existingHabit.colorHex = color.toHex()
+                        } else {
+                            // Create new habit
+                            let newHabit = HabitModel(
+                                id: UUID.init(),
+                                title: name,
+                                colorHex: color.toHex(),
+                                checkIns: []
+                            )
+                            context.insert(newHabit)
+                        }
                         dismiss()
                     }
+                    .disabled(name.isEmpty)
                 }
             }
         }
@@ -46,6 +68,10 @@ struct HabitSheet: View {
     }
 }
 
-#Preview {
+#Preview("New Habit") {
     HabitSheet()
 }
+#Preview("Edit Habit") {
+    HabitSheet(habit: HabitModel(id: UUID(), title: "Example Habit", colorHex: "#FF5733", checkIns: []))
+}
+

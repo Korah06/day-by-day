@@ -5,9 +5,8 @@
 //  Created by Mario Espasa Planells on 14/2/26.
 //
 
-
-import SwiftData
 import SwiftUI
+import SwiftData
 
 struct HistoricCheckInSheet: View {
     @Environment(\.modelContext) private var modelContext
@@ -33,12 +32,10 @@ struct HistoricCheckInSheet: View {
                         
                         Spacer()
                         
-                        Text(checkIn.amount.truncatingRemainder(dividingBy: 1) == 0 ? 
-                             "\(Int(checkIn.amount))" : 
-                             "\(checkIn.amount, specifier: "%.1f")")
+                        Text("\(checkIn.amount, specifier: "%.1f")")
                             .font(.title3)
                             .fontWeight(.semibold)
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(Color(hex: habit.colorHex))
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
@@ -124,12 +121,10 @@ struct EditCheckInSheet: View {
                 }
             }
         }
-
     }
 }
 
 #Preview {
-
     HistoricCheckInSheet(habit: HabitModel(id: UUID(), title: "Example", colorHex: "#FF22FF", checkIns:[
         CheckInModel(
             id: UUID(),
@@ -138,5 +133,4 @@ struct EditCheckInSheet: View {
         ),
         CheckInModel(id: UUID(), amount: 40, date: Date()),
     ] ))
-
 }

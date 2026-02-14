@@ -13,6 +13,7 @@ struct HabitDetailView: View {
     let habit: HabitModel
     @State var isShowingCheckInSheet: Bool = false
     @State var isShowingHistoricCheckInSheet: Bool = false
+    @State var isShowingHabitModal: Bool = false
 
     
     var body: some View {
@@ -28,11 +29,16 @@ struct HabitDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar{
 
-            ToolbarItem(placement: .topBarTrailing){
+            ToolbarItemGroup(placement: .topBarTrailing){
                 Button(action: {
                     isShowingHistoricCheckInSheet = true
                 }) {
                     Image(systemName: "calendar.badge.clock")
+                }
+                Button(role:.confirm,action: {
+                    isShowingHabitModal = true
+                }) {
+                    Image(systemName: "pencil")
                 }
             }
         }
@@ -42,6 +48,10 @@ struct HabitDetailView: View {
         }
         .sheet(isPresented: $isShowingHistoricCheckInSheet) {
             HistoricCheckInSheet(habit: habit)
+                .presentationDetents([.medium, .large])
+        }
+        .sheet(isPresented: $isShowingHabitModal) {
+            HabitSheet(habit: habit)
                 .presentationDetents([.medium, .large])
         }
     }

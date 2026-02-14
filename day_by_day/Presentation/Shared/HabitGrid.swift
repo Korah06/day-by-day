@@ -51,7 +51,7 @@ struct HabitGrid: View {
                                     .foregroundColor(colorData.color)
                                     .frame(width: 17, height: 17)
                                     .shadow(
-                                        color: Color.green.opacity(colorData.brightness * 0.6),
+                                        color: Color(hex: habit.colorHex).opacity(colorData.brightness * 0.6),
                                         radius: colorData.brightness * 3,
                                         x: 0,
                                         y: 0
@@ -70,7 +70,10 @@ struct HabitGrid: View {
             }
         }
         .padding()
-        .glassEffect(.regular, in: .rect(cornerRadius: 20))
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color(hex: habit.colorHex).opacity(0.07))
+        )
         .padding()
 
 
@@ -142,10 +145,12 @@ struct HabitGrid: View {
             }
         }
         
+        let habitColor = Color(hex: habit.colorHex)
+        
         if thereIsCheckInToday {
             // Calculate brightness based on amount (0-10 scale)
             let brightness = min(totalAmount / 10.0, 1.0)
-            return (Color.green.opacity(brightness), brightness)
+            return (habitColor.opacity(brightness), brightness)
         } else if date < today {
             return (Color.gray.opacity(0.5), 0)
         } else {
