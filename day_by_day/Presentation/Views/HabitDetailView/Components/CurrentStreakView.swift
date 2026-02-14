@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct CurrentStreakView: View {
-<<<<<<< HEAD
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-=======
 
     let habit: HabitModel
 
@@ -70,14 +66,12 @@ struct CurrentStreakView: View {
         }
 
         return streak
->>>>>>> bebc1ac (Make historic sheet and ended habit detail view)
+
     }
 }
 
 #Preview {
-<<<<<<< HEAD
-    CurrentStreakView()
-=======
+
     CurrentStreakView( habit: HabitModel(id: UUID(), title: "Example", colorHex: "#FF22FF", checkIns:[] ))
->>>>>>> bebc1ac (Make historic sheet and ended habit detail view)
+
 }

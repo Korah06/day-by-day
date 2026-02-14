@@ -5,14 +5,9 @@
 //  Created by Mario Espasa Planells on 14/2/26.
 //
 
-import SwiftUI
-<<<<<<< HEAD
 
-struct HistoricCheckInView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-=======
 import SwiftData
+import SwiftUI
 
 struct HistoricCheckInSheet: View {
     @Environment(\.modelContext) private var modelContext
@@ -129,14 +124,12 @@ struct EditCheckInSheet: View {
                 }
             }
         }
->>>>>>> bebc1ac (Make historic sheet and ended habit detail view)
+
     }
 }
 
 #Preview {
-<<<<<<< HEAD
-    HistoricCheckInView()
-=======
+
     HistoricCheckInSheet(habit: HabitModel(id: UUID(), title: "Example", colorHex: "#FF22FF", checkIns:[
         CheckInModel(
             id: UUID(),
@@ -145,5 +138,5 @@ struct EditCheckInSheet: View {
         ),
         CheckInModel(id: UUID(), amount: 40, date: Date()),
     ] ))
->>>>>>> bebc1ac (Make historic sheet and ended habit detail view)
+
 }
