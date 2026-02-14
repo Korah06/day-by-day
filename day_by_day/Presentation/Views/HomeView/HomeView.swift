@@ -16,7 +16,6 @@ struct HomeView: View {
             List(habits) { habit in
                 ZStack {
                     NavigationLink(value: habit) {
-                        HabitDetailView(habit: habit)
                     }
                     .opacity(0)
                     HabitGrid(habit: habit)
