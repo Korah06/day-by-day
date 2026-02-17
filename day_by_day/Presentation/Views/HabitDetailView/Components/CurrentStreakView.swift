@@ -24,7 +24,7 @@ struct CurrentStreakView: View {
                     
                     Image(systemName: "flame.fill")
                         .foregroundStyle(.orange)
-                    Text(currentStreak == 1 ? "Day Streak" : "Days Streak")
+                    Text(currentStreak == 1 ? "dayStreak" : "daysStreak")
                         .font(.subheadline)
                         .foregroundStyle(.black.opacity(0.8))
                 }
@@ -72,6 +72,14 @@ struct CurrentStreakView: View {
 
 #Preview {
 
-    CurrentStreakView( habit: HabitModel(id: UUID(), title: "Example", colorHex: "#FF22FF", checkIns:[] ))
+    CurrentStreakView(
+        habit: HabitModel(
+            id: UUID(),
+            title: "Example",
+            colorHex: "#FF22FF",
+            checkIns:[],
+            unit: .none
+        )
+    )
 
 }

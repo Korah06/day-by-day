@@ -18,26 +18,24 @@ struct CheckInSheet: View {
     var body: some View {
         NavigationStack{
             Form{
-                DatePicker("Fecha y Hora", selection: $checkInDate)
+                DatePicker("dateAndTime", selection: $checkInDate)
 
-                LabeledContent {
-                    TextField("Cantidad", value: $amount, formatter: NumberFormatter())
+                LabeledContent("quantity (\(habit.unit.rawValue))") {
+                    TextField("amount", value: $amount, formatter: NumberFormatter())
                         .multilineTextAlignment(.trailing)
-                } label: {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Quantity")
-                        Text("hours")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
                 }
             }
-            .navigationTitle("Check in")
+            .navigationTitle("checkIn")
             .navigationBarTitleDisplayMode(.large)
             .toolbar{
+                ToolbarItemGroup(placement: .topBarLeading){
+                    Button("cancel",role: .cancel){
+                        dismiss()
+                    }
+                }
 
                 ToolbarItemGroup(placement: .topBarTrailing){
-                    Button("Guardar",role: .confirm){
+                    Button("save",role: .confirm){
 
                         let checkIn = CheckInModel(
                             id: UUID(), amount: amount, date: checkInDate
@@ -52,5 +50,13 @@ struct CheckInSheet: View {
 }
 
 #Preview {
-    CheckInSheet(habit: HabitModel(id: UUID(), title: "Example", colorHex: "#FF22FF", checkIns:[] ))
+    CheckInSheet(
+        habit: HabitModel(
+            id: UUID(),
+            title: "Example",
+            colorHex: "#FF22FF",
+            checkIns:[],
+            unit: .none
+        )
+    )
 }

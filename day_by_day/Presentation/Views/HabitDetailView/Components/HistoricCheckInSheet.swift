@@ -5,18 +5,18 @@
 //  Created by Mario Espasa Planells on 14/2/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct HistoricCheckInSheet: View {
     @Environment(\.modelContext) private var modelContext
     let habit: HabitModel
     @State private var editingCheckIn: CheckInModel?
-    
+
     var sortedCheckIns: [CheckInModel] {
         habit.checkIns.sorted { $0.date > $1.date }
     }
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -29,13 +29,13 @@ struct HistoricCheckInSheet: View {
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
-                        
+
                         Spacer()
-                        
+
                         Text("\(checkIn.amount, specifier: "%.1f")")
                             .font(.title3)
                             .fontWeight(.semibold)
-                            .foregroundStyle(Color(hex: habit.colorHex))
+                            .foregroundStyle(.blue)
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
@@ -44,14 +44,16 @@ struct HistoricCheckInSheet: View {
                 }
                 .onDelete(perform: deleteCheckIns)
             }
-            .navigationTitle("Check-in History")
+            .navigationTitle("checkInHistory")
             .navigationBarTitleDisplayMode(.inline)
             .overlay {
                 if sortedCheckIns.isEmpty {
                     ContentUnavailableView(
-                        "No Check-ins Yet",
+                        "noCheckInsYet",
                         systemImage: "calendar.badge.clock",
-                        description: Text("Start tracking your habit to see history here")
+                        description: Text(
+                            "startTrackingYourHabitToSeeHistoryHere"
+                        )
                     )
                 }
             }
@@ -60,11 +62,13 @@ struct HistoricCheckInSheet: View {
             }
         }
     }
-    
+
     private func deleteCheckIns(at offsets: IndexSet) {
         for index in offsets {
             let checkIn = sortedCheckIns[index]
-            if let habitIndex = habit.checkIns.firstIndex(where: { $0.id == checkIn.id }) {
+            if let habitIndex = habit.checkIns.firstIndex(where: {
+                $0.id == checkIn.id
+            }) {
                 habit.checkIns.remove(at: habitIndex)
                 modelContext.delete(checkIn)
             }
@@ -76,44 +80,48 @@ struct HistoricCheckInSheet: View {
 struct EditCheckInSheet: View {
     @Environment(\.dismiss) private var dismiss
     let checkIn: CheckInModel
-    
+
     @State private var date: Date
     @State private var amount: Double
-    
+
     init(checkIn: CheckInModel) {
         self.checkIn = checkIn
         _date = State(initialValue: checkIn.date)
         _amount = State(initialValue: checkIn.amount)
     }
-    
+
     var body: some View {
         NavigationStack {
             Form {
-                DatePicker("Date & Time", selection: $date)
-                
+                DatePicker("dateAndTime", selection: $date)
+
                 LabeledContent {
-                    TextField("Amount", value: $amount, formatter: NumberFormatter())
-                        .multilineTextAlignment(.trailing)
+                    TextField(
+                        "amount",
+                        value: $amount,
+                        formatter: NumberFormatter()
+                    )
+                    .multilineTextAlignment(.trailing)
                 } label: {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("hours")
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                        Text("Quantity")
+                        Text("quantity")
                     }
                 }
             }
-            .navigationTitle("Edit Check-in")
+            .navigationTitle("editCheckIn")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
+                    Button("cancel") {
                         dismiss()
                     }
                 }
-                
+
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button("save") {
                         checkIn.date = date
                         checkIn.amount = amount
                         dismiss()
@@ -125,12 +133,20 @@ struct EditCheckInSheet: View {
 }
 
 #Preview {
-    HistoricCheckInSheet(habit: HabitModel(id: UUID(), title: "Example", colorHex: "#FF22FF", checkIns:[
-        CheckInModel(
+    HistoricCheckInSheet(
+        habit: HabitModel(
             id: UUID(),
-            amount: 30,
-            date: Date().addingTimeInterval(-6 * 86400)
-        ),
-        CheckInModel(id: UUID(), amount: 40, date: Date()),
-    ] ))
+            title: "Example",
+            colorHex: "#FF22FF",
+            checkIns: [
+                CheckInModel(
+                    id: UUID(),
+                    amount: 30,
+                    date: Date().addingTimeInterval(-6 * 86400)
+                ),
+                CheckInModel(id: UUID(), amount: 40, date: Date()),
+            ],
+            unit: .none
+        )
+    )
 }

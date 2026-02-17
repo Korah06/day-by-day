@@ -28,7 +28,7 @@ struct CheckInButton: View {
                 }
             }
         }) {
-            Label("Check in", systemImage: "checkmark")
+            Label("checkIn", systemImage: "checkmark")
                 .font(.title3)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 5)

@@ -29,7 +29,7 @@ struct HabitGrid: View {
                     .font(.title)
                 Spacer()
                 if isStatic {
-                    Text("Last 11 weeks")
+                    Text("lastElevenWeeks")
                         .font(.caption)
                 }
 
@@ -165,7 +165,6 @@ struct HabitGrid: View {
             id: UUID(),
             title: "Read a Book",
             colorHex: "#121212",
-
             checkIns: [
                 CheckInModel(
                     id: UUID(),
@@ -198,7 +197,7 @@ struct HabitGrid: View {
                     date: Date().addingTimeInterval(-6 * 86400)
                 ),
                 CheckInModel(id: UUID(), amount: 40, date: Date()),
-            ]
+            ], unit:.none
         )
     )
 }

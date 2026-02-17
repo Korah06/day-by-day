@@ -24,7 +24,7 @@ struct HomeView: View {
                 .listRowBackground(Color.clear)
             }
             .listStyle(.plain)
-            .navigationTitle("Habitos")
+            .navigationTitle("habits")
             .navigationDestination(for: HabitModel.self) { habit in
                 HabitDetailView(habit: habit)
             }
@@ -46,15 +46,15 @@ struct HomeView: View {
                     ContentUnavailableView(
                         label: {
                             Label(
-                                "No hay hábitos disponibles",
+                                "noHabitsAvailable",
                                 systemImage: "list.bullet.rectangle.portrait"
                             )
                         },
                         description: {
-                            Text("Agrega un nuevo hábito")
+                            Text("addNewHabit")
                         },
                         actions: {
-                            Button("Agregar Hábito") {
+                            Button("addHabit") {
                                 isShowingHabitSheet = true
                             }
                         }
